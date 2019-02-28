@@ -4,8 +4,38 @@ author: "Sherry Huang, Eddie Yang"
 date: "March 8, 2019"
 output: pdf
 ---
+https://eposweb-320.sequoiars.com/ePOS?form=shared3/gm/main.html&this_category=17&store=320&design=duke_textbooks
+
+https://trinity.duke.edu/natural-sciences
+
+Biology: 89,154,157,201,202,203,205,207,209,212,221,223,250,255,304,321,329,347,348,364,365,369,415,420,425,431,450,452,453,454,490,491,495,546,557,571,590,668
+*491 is another section of 490; they are two different seminars with different topics
+*not sure if we should include these courses since they are taught in Beaufort (Marine Lab): 369,571
+*321 with evanth 341
+
+Chemistry: 89,101,201,202,210,295,301,302,311,393,394,401,410,420,493,494,496,518,533,535,536,538,590,611,630
+*393&394 are independent studies
+
+CS: 94,101,116,201,216,230,249,250,270,290.307,308,310,316,330,334,342,350,356,391,394,520,524,527,534,553,561,590.01,590.02,590.03,590.04,671
+*391,394 independent studies
+*590 has different courses
+*671 cross listed with sta671, 571 with sta561, 524 with physics513, 520 with math565 and sta612
+
+Evolutionary Anthropology:101,220,231,260,285,330,333,344,363,520,530,561
+*260 with psy 255, 561 cross listed with Psych561
+
+Mathematics: 75,89,105,106,111,112,181,190,202,212,216,218,221,222,230,238,240,290,342,353,356,361,375,390,391,392,393,394,401,403,404,411,421,431,451,453,491,492,493,494,502,532,545,557,564,575,577,582,602,612,621,627,633,641,653,660.690.01,690.02
+*DukeHub
+*230 cross listed with sta230, 342 with sta250
+*191,391-394,491-494 independent studies
 
 ```{r}
 
 ```
 
+Topic: how much should Duke students who take course in natural science departments expect to spend on required textbooks if they buy them new at the Duke textbook store?
+
+Questions: point estimate and 95% CI
+1. What is the total cost of required books in the natural sciences at Duke?
+2. What is the average number of required books per course in the natural sciences at Duke?
+3. What is the average of the (total) cost of required books per course in the natural sciences at Duke?
