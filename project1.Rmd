@@ -22,84 +22,60 @@ Mathematics: 75,89,105,106,111,112,181,190,202,212,216,218,221,222,230,238,240,2
 Physics: 133,139,141,142,151,153,161,162,175,264,271,305,346,361,363,465,505,549,566,567,590.01,590.02
 
 Neuroscience:
-101, 103, 150,
-212, 252, 267, 280, 282, 290,
-301, 333, 352, 353, 355, 360, 366, 376, 378,
-499,
-500, 515, 595
+101, 103, 150, 212, 252, 267, 280, 282, 290, 301, 333, 352, 353, 355, 360, 366, 376, 378, 499, 500, 515, 595
 
 Psychology:
 89.01,89.02,101,102,103,104,105,201,202,203,212,213,222,230,236,240,250,256,321,323,324,368,390,425,426,435,437,496,607,613,671
 
 Stats:
-101, 102, 111, 130, 199,
-210, 322, 323, 360,
-450, 470,
-502, 531, 532, 581, 602, 613, 650, 663
+101, 102, 111, 130, 199, 210, 322, 323, 360, 450, 470, 502, 531, 532, 581, 602, 613, 650, 663
 
 ```{r}
 bio = c(89,154,157,201,202,203,205,207,209,212,221,223,250,255,304,321,329,347,348,364,365,369,415,420,425,431,450,452,453,454,490.01,490.02,495,546,557,571,590,668) 
-
 chem = c(89,101,201,202,210,295,301,302,311,401,410,420,493,494,496,518,533,535,536,538,590,611,630)
-
 compsci = c(94,101,116,201,216,230,249,250,270,290,307,308,310,316,330,334,342,350,356,520,524,527,534,553,561,590.01,590.02,590.03,590.04,671)
-
 evanth = c(101,220,231,260,285,330,333,344,363,520,530,561)
-
 math = c(75,89,105,106,111,112,181,190,202,212,216,218,221,222,230,238,240,290,342,353,356,361,375,390,401,403,404,411,421,431,451,453,502,532,545,557,564,575,577,582,602,612,621,627,633,641,653,660,690.01,690.02)
-
 physics = c(133,139,141,142,151,153,161,162,175,264,271,305,346,361,363,465,505,549,566,567,590.01,590.02)
-
 psych = c(89.01,89.02,101,102,103,104,105,201,202,203,212,213,222,230,236,240,250,256,321,323,324,368,390,425,426,435,437,496,607,613,671)
-
 neuro = c(101,103,150,212,252,267,280,282,290,301,333,352,353,355,360,366,376,378,499,500,515,595)
-
 stats = c(101,102,111,130,199,210,322,323,360,450,470,502,531,532,581,602,613,650,663)
 
-# 9 strata
-N1 = length(bio)
-N2 = length(chem)
-N3 = length(compsci)
-N4 = length(evanth)
-N5 = length(math)
-N6 = length(physics)
-N7 = length(psych)
-N8 = length(neuro)
-N9 = length(stats)
-# 247 courses in total
-N = N1 + N2 + N3 + N4 + N5 + N6 + N7 + N8 + N9
-# set sample size to be 100
-n = 100
-# take samples proportional to stratum size
-n1 = round(n*N1/N, 0)
-n2 = round(n*N2/N, 0)
-n3 = round(n*N3/N, 0)
-n4 = round(n*N4/N, 0)
-n5 = round(n*N5/N, 0)
-n6 = round(n*N6/N, 0)
-n7 = round(n*N7/N, 0)
-n8 = round(n*N8/N, 0)
-n9 = round(n*N9/N, 0)
+depNames= c("bio", "chem", "compsci", "evanth", "math", "physics", "psych", "neuro", "stats")
+numDep = length(depNames)
+
+allCourses = list() # list of lists to store all the courses
+for (i in 1:numDep) {
+  allCourses[[length(allCourses) + 1]] = get(depNames[i])
+}
+
+N = 0 # total number of courses to be computed
+
+for (i in 1:numDep) { # 9 strata
+  assign(paste("N", i, sep = ""), length(allCourses[[i]]))
+  N = N + length(allCourses[[i]])
+}
+N # 247 courses in total
 
 set.seed(322)
-sBio = sample(bio, n1, replace = FALSE)
-sChem = sample(chem, n2, replace = FALSE)
-sCS = sample(compsci, n3, replace = FALSE)
-sEA = sample(evanth, n4, replace = FALSE)
-sMA = sample(math, n5, replace = FALSE)
-sPhy = sample(physics, n6, replace = FALSE)
-sPsy = sample(psych, n7, replace = FALSE)
-sNeu = sample(neuro, n8, replace = FALSE)
-sStat = sample(stats, n9, replace = FALSE)
 
-department = c(rep("bio", n1), rep("chem", n2), rep("compsci", n3), rep("evanth", n4), rep("math", n5), rep("physics", n6), rep("psych", n7), rep("neuro", n8), rep("stats", n9))
+n = 100 # set sample size to be 100
+department = c() # array to store department of all the sampled courses
+course = c() # array to store course numbers of all the sampled courses
 
-course = c(sBio, sChem, sCS, sEA, sMA, sPhy, sPsy, sNeu, sStat)
+# take the samples
+for (i in 1:numDep) {
+  assign(paste("n", i, sep = ""), round(get(paste("N", i, sep = ""))*n/N, 0)) # make sample size within each stratum proportional to stratum size
+  sample = sample(allCourses[[i]], get(paste("n", i, sep = "")), replace = FALSE)
+  assign(paste("s", depNames[i], sep = ""), sample)
+  department = c(department, rep(depNames[i], get(paste("n", i, sep = ""))))
+  course = c(course, sample)
+}
 
 dat = data.frame(cbind(department, course))
 dat$booknum = rep(0, 100)
 dat$cost = rep(0,100)
-write.csv(dat, file = "sampledata.csv")
+#write.csv(dat, file = "sampledata.csv")
 ```
 
 Topic: how much should Duke students who take course in natural science departments expect to spend on required textbooks if they buy them new at the Duke textbook store?
