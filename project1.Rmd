@@ -6,8 +6,6 @@ output: pdf
 ---
 https://eposweb-320.sequoiars.com/ePOS?form=shared3/gm/main.html&this_category=17&store=320&design=duke_textbooks
 
-https://trinity.duke.edu/natural-sciences
-
 Biology: 89,154,157,201,202,203,205,207,209,212,221,223,250,255,304,321,329,347,348,364,365,369,415,420,425,431,450,452,453,454,490.01,490.02,495,546,557,571,590,668
 *not sure if we should include these courses since they are taught in Beaufort (Marine Lab): 369,571
 
