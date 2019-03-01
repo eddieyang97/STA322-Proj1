@@ -77,6 +77,18 @@ dat$cost = rep(0,100)
 #write.csv(dat, file = "sampledata.csv")
 ```
 
+Then, data is collected manually and recorded into sampledata.csv
+
+```{r}
+books = read.csv("sampledata.csv")
+
+# exploratory data analysis
+summary(books$cost)
+summary(books$booknum)
+plot(books$course, books$cost)
+plot(books$department, books$cost)
+```
+
 Topic: how much should Duke students who take course in natural science departments expect to spend on required textbooks if they buy them new at the Duke textbook store?
 
 Questions: point estimate and 95% CI
