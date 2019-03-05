@@ -54,7 +54,7 @@ for (i in 1:numDep) { # 9 strata
   assign(paste("N", i, sep = ""), length(allCourses[[i]]))
   N = N + length(allCourses[[i]])
 }
-N # 247 courses in total
+#N # 247 courses in total
 
 set.seed(322)
 
@@ -87,6 +87,35 @@ summary(books$cost)
 summary(books$booknum)
 plot(books$course, books$cost)
 plot(books$department, books$cost)
+```
+
+```{r message=FALSE, warning=FALSE}
+library(survey)
+#summary(books$department)
+    # bio    chem compsci  evanth    math   neuro physics   psych   stats 
+    #  15       9      12       5      20       9       9      13       8
+
+#set weights to Nh/nh
+books$weights = c(rep(38/15,15), rep(23/9,9), rep(30/12,12), 
+                  rep(12/5,5), rep(50/20,20), rep(22/9,9), 
+                  rep(31/13,13), rep(22/9,9), rep(19/8,8))
+
+#set fpc to Nh
+books$fpc = c(rep(38,15), rep(23,9), rep(30,12), rep(12,5), 
+              rep(50,20), rep(22,9), rep(31,13), rep(22,9), rep(19,8))
+
+#create survey design
+desBooks = svydesign(~1, strata = ~department, weights = ~weights, fpc = ~fpc, data = books)
+
+#total cost of required books
+svytotal(~cost, desBooks)
+
+#average number of required books
+svymean(~booknum, desBooks)
+
+#average cost per course
+svymean(~cost, desBooks)
+
 ```
 
 Topic: how much should Duke students who take course in natural science departments expect to spend on required textbooks if they buy them new at the Duke textbook store?
