@@ -12,19 +12,22 @@ output:
   This study aims to examine the amount and cost of required textbooks for Natural Sciences courses at Duke University. Specifically, the average and total cost of required books for courses under 700 level are estimated assuming they are bought new at the Duke textbook store. This report includes details of the study design, procedures of data collection, and analysis of estimation results using the \texttt{survey} package in R.
 
 ####Study Design and Data Collection
-  Natural Sciences at Duke include the following nine departments: Biology, Chemistry, Computer Science, Evolutionary Anthropology, Mathematics, Physics, Psychology, Neuroscience, and Statistical Science. Given this existing intuitive grouping of courses, stratified sampling is the most suitable sampling method in this case.  
+  According to the Trinity College of Arts and Sciences webpage, Natural Sciences at Duke University include the following nine departments: Biology, Chemistry, Computer Science, Evolutionary Anthropology, Mathematics, Physics, Psychology, Neuroscience, and Statistical Science. Given this existing intuitive grouping of courses, stratified sampling is the most suitable sampling method in this case. Each department is a stratum. Courses were randomly sampled from each of the nine departments, with sample sizes for each department proportionally allocated based on stratum size and population size.
+  Using the DukeHub webiste as our source of information for course listings, we first noted all course numbers of unique courses under 700 level and their total counts for each Natural Sciences department. Courses with duplicate sections or complementary lab sessions were counted only once for their lecture component; courses that have combined sections between undergraduate and graudate students were also counted only once. Courses under one Natural Sciences department that are cross listed in other Natural Sciences department are counted towards the first department that the courses were listed under (the counting process took place in an alphabetic order based on the name of the department). Courses offered abroad were excluded, but two Biology courses partially taught in the Marine Lab were kept. There are in total 247 unique courses across the nine departments, and the specific breakdown is shown in the table below.
+  To ensure abundance and representativeness of our sample, we decided on a sample size of 100 courses. Sample sizes for each department were calculated so that they were proportional to their stratum size in relation to the total population size. Specific sample sizes, shown in the table below, were used to randomly sample course numbers without replacement from all departments. The number of required books and the total cost of buying these required books new at the Duke store were then identified from the Duke textbook store website for each of these selected courses. Textbooks that were shown as "currently unavailable" online were included in the number of books counted for the course but were considered as having no price. These information, manually collected and entered, can be found in the accompanying data file "SampleData_SH&EY.csv".
 
-####Results
+[insert a table for population & sample sizes]
+
+####Data Analysis and Results
+Upon completion of sample data collection, the dataset was loaded and prepared for the R \texttt{survey} package, which was used to make finite population inference for this study. The employment of stratification and proportional allocation allows us to calculate the survey weights for each individual course, by dividing total course counts for each department by its respective sample size. A survey design can thus be created with these survey weights along with departments as strata, and course counts for each department as the finite population correction parameter. 
+
 
 
 ####Discussion
 
 
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
-library(survey)
-```
-
+####Code
 ```{r message=FALSE, warning=FALSE}
 # data collection
 bio = c(89,154,157,201,202,203,205,207,209,212,221,223,250,255,304,321,329,347,348,364,365,369,415,420,425,431,450,452,453,454,490.01,490.02,495,546,557,571,590,668) 
@@ -93,7 +96,7 @@ plot(books$department, books$cost)
 #summary(books$department)
     # bio    chem compsci  evanth    math   neuro physics   psych   stats 
     #  15       9      12       5      20       9       9      13       8
-
+library(survey)
 #set weights to Nh/nh
 books$weights = c(rep(38/15,15), rep(23/9,9), rep(30/12,12), 
                   rep(12/5,5), rep(50/20,20), rep(22/9,9), 
