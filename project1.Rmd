@@ -67,7 +67,6 @@ for (i in 1:numDep) { # 9 strata
   assign(paste("N", i, sep = ""), length(allCourses[[i]]))
   N = N + length(allCourses[[i]])
 }
-#N  
 # 247 courses in total
 
 set.seed(322)
@@ -89,8 +88,8 @@ for (i in 1:numDep) {
 dat = data.frame(cbind(department, course))
 dat$booknum = rep(0, 100)
 dat$cost = rep(0,100)
-# generate sample data file
-#write.csv(dat, file = "sampledata.csv")
+# generate sample data file which will be filled out manually
+# write.csv(dat, file = "SampleData_SH&EY.csv")
 ```
 
 
