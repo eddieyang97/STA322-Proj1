@@ -16,7 +16,7 @@ output:
   
   Using the DukeHub webiste as our source of information for course listings, we first recorded all course numbers of unique courses under 700 level and their total counts for each Natural Sciences department. Each course that has multiple lecture sections or complementary lab sessions was counted only once; each course that has combined sections between undergraduate and graudate students was also counted only once for the undergraduate section. Courses under one Natural Sciences department that are cross listed in other Natural Sciences department were counted towards the first department that the courses were listed under (the counting process took place in an alphabetic order based on the name of the department). Courses offered abroad were excluded, but two Biology courses partially taught in the Marine Lab were kept. There are in total 247 unique courses across the nine departments, and the specific breakdown is shown in the table below.
   
-  To ensure the abundance and representativeness of our sample, we decided on a sample size of 100 courses. Sample size $(n_h)$ for each of the stratum was calculated so that it is proportional to its stratum size $(n)$ in relation to the total population size $(N)$ $(\frac{n_h}{n}=\frac{N_h}{N})$. Specific sample sizes, shown in the table below, were used to randomly sample course numbers without replacement from all departments. The number of required books and the total cost of buying these required books new at the Duke store were then collected manually from the Duke Textbook Store website for each of these selected courses. Textbooks that were shown as "currently unavailable" online were included in the number of books counted for the course but were considered as having no price. These information can be found in the accompanying data file "SampleData_SH&EY.csv".
+  To ensure the abundance and representativeness of our sample, we decided on a sample size of 100 courses. Sample size $(n_h)$ for each of the stratum was calculated so that it is proportional to the total sample size $(n)$ in relation to the stratum size $(N_h)$ and the total population size $(N)$ $(\frac{n_h}{n}=\frac{N_h}{N})$. Specific sample sizes, shown in the table below, were used to randomly sample course numbers without replacement from all departments. The number of required books and the total cost of buying these required books new at the Duke store were then collected manually from the Duke Textbook Store website for each of these selected courses. Textbooks that were shown as "currently unavailable" online were included in the number of books counted for the course but were considered as having no price. These information can be found in the accompanying data file "SampleData_SH&EY.csv".
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 counts = data.frame(
@@ -28,28 +28,37 @@ knitr::kable(counts, caption = "Number of Natural Sciences Courses by Department
 ```
 
 ####Data Analysis and Results
-
   Upon completion of sample data collection, the dataset was loaded and prepared for the R \texttt{survey} package, which was used to make finite population inference for this study. The employment of stratification and proportional allocation allows us to calculate the survey weights for each individual course, by dividing total course counts for each department by its respective sample size. A survey design can thus be created with these survey weights along with departments as strata, and course counts for each department as the finite population correction parameter. 
 
   Based on our study design, the total cost of required books for Natural Sciences at Duke is estimated to be \$12482 (SE = 1736), with a 95% confidence interval of (9079,21, 15884.11). The average cost of required books per course for Natural Sciences is estimated to be \$50.53 (SE = 7.03), with a 95% confidence interval of (36.76, 64.31). The average number of required books per course for Natural Sciences is estimated to be 0.458 (SE = 0.0572), with a 95% confidence interval of (0.346, 0.570). It is understandable that not every course requires the purchase of a new textbook.
 
 ####Discussion
   Although the use of stratification and proportional alloscation is intuitive and appropriate for the similarities shared between courses listed under the same department, there are various limitations to the study design.
+  
   First of all, numbers of textbook required and prices may vary based on the level and difficulty of the courses within the same department, and this is not accounted for by randomly sampling courses within a department.
+  
   Secondly, the courses included in the sample may not be representative enough for students studying Natural Sciences at Duke, since some courses, such as entry level courses, are more likely to be taken by large groups of students. It may be beneficial to assign higher weights to these classes than classes that fewer students may choose. We also noticed that most of the courses sampled do not have any required textbooks. This could be reflective of the reality but could also be caused by the outdated or limited information on the Duke Textbook Store website. Textbooks that are required by professors but not entered into the system were thus neglected in our analysis. Those without count and cost data on the website tend to have higher prices, which could be a potential source of bias for our inference. It is also uncertain that, for crosslisted courses, whether or not required textbooks are listed only under a specific department or whether graduate sections may need more textbooks than the undergraduate sections.
 
-
 ####Code
+  The sample data file is uploaded to Sherry Huang's Sakai Dropbox.
 
 ```{r message=FALSE, warning=FALSE}
 # data collection
-bio = c(89,154,157,201,202,203,205,207,209,212,221,223,250,255,304,321,329,347,348,364,365,369,415,420,425,431,450,452,453,454,490.01,490.02,495,546,557,571,590,668) 
-chem = c(89,101,201,202,210,295,301,302,311,401,410,420,493,494,496,518,533,535,536,538,590,611,630)
-compsci = c(94,101,116,201,216,230,249,250,270,290,307,308,310,316,330,334,342,350,356,520,524,527,534,553,561,590.01,590.02,590.03,590.04,671)
+bio = c(89,154,157,201,202,203,205,207,209,212,221,223,250,255,
+        304,321,329,347,348,364,365,369,415,420,425,431,450,452,453,454,
+        490.01,490.02,495,546,557,571,590,668) 
+chem = c(89,101,201,202,210,295,301,302,311,401,410,420,493,494,496,
+         518,533,535,536,538,590,611,630)
+compsci = c(94,101,116,201,216,230,249,250,270,290,307,308,310,316,
+            330,334,342,350,356,520,524,527,534,553,561,590.01,590.02,590.03,590.04,671)
 evanth = c(101,220,231,260,285,330,333,344,363,520,530,561)
-math = c(75,89,105,106,111,112,181,190,202,212,216,218,221,222,230,238,240,290,342,353,356,361,375,390,401,403,404,411,421,431,451,453,502,532,545,557,564,575,577,582,602,612,621,627,633,641,653,660,690.01,690.02)
-physics = c(133,139,141,142,151,153,161,162,175,264,271,305,346,361,363,465,505,549,566,567,590.01,590.02)
-psych = c(89.01,89.02,101,102,103,104,105,201,202,203,212,213,222,230,236,240,250,256,321,323,324,368,390,425,426,435,437,496,607,613,671)
+math = c(75,89,105,106,111,112,181,190,202,212,216,218,221,222,230,238,240,290,
+         342,353,356,361,375,390,401,403,404,411,421,431,451,453,502,532,545,557,564,575,
+         577,582,602,612,621,627,633,641,653,660,690.01,690.02)
+physics = c(133,139,141,142,151,153,161,162,175,264,271,305,346,361,363,
+            465,505,549,566,567,590.01,590.02)
+psych = c(89.01,89.02,101,102,103,104,105,201,202,203,212,213,222,230,236,240,250,256,
+          321,323,324,368,390,425,426,435,437,496,607,613,671)
 neuro = c(101,103,150,212,252,267,280,282,290,301,333,352,353,355,360,366,376,378,499,500,515,595)
 stats = c(101,102,111,130,199,210,322,323,360,450,470,502,531,532,581,602,613,650,663)
 
